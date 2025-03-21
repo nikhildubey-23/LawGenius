@@ -1,7 +1,10 @@
 #!/bin/bash
-python -m pip install --upgrade pip
+
+# Install Python dependencies
 pip install -r requirements.txt
 
-python manage.py collectstatic --noinput
-python manage.py makemigrations
-python manage.py migrate
+# Run Django commands
+python manage.py collectstatic --noinput --clear
+
+# Create the static directory if it doesn't exist
+mkdir -p staticfiles
