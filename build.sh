@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Upgrade pip and install setuptools
+python -m pip install --upgrade pip setuptools wheel
+
 # Install Python dependencies
 pip install -r requirements.txt
 
