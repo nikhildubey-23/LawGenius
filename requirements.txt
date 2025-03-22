@@ -37,3 +37,4 @@ urllib3==2.3.0
 wheel==0.42.0
 whitenoise==6.9.0
 zstandard==0.23.0
+gunicorn==21.2.0

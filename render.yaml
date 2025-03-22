@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: lawgenius
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn LawGenius.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: DJANGO_SECRET_KEY
+        sync: false
+      - key: DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com"
