@@ -3,7 +3,7 @@ services:
     name: lawgenius
     env: python
     buildCommand: "./build.sh"
-    startCommand: "cd . && gunicorn LawGenius.wsgi:application"
+    startCommand: "gunicorn --chdir . LawGenius.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
