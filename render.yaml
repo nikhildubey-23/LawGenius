@@ -2,20 +2,14 @@ services:
   - type: web
     name: lawgenius
     runtime: python
-    plan: free
-    buildCommand: "chmod +x build.sh && ./build.sh"
-    startCommand: "cd /opt/render/project/src && python manage.py migrate && gunicorn LawGenius.wsgi:application --log-file -"
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn wsgi:application
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
-      - key: DJANGO_SECRET_KEY
-        sync: false
       - key: DEBUG
         value: "False"
       - key: DJANGO_ALLOWED_HOSTS
         value: ".onrender.com"
       - key: PYTHONPATH
-        value: "/opt/render/project/src"
-      - key: PORT
-        value: "10000"
-    autoDeploy: false
+        value: "."
