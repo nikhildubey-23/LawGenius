@@ -65,8 +65,6 @@ LawGenius is a Django-based AI-powered legal assistant designed to assist lawyer
 - `GET /about` - Information about the platform.
 - `GET /reachout` - Contact page.
 
-## Deployment
-The application is optimized for deployment on **Vercel** with a temporary SQLite database stored in `/tmp`. Ensure necessary environment variables are set before deploying.
 
 
 
