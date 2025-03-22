@@ -2,8 +2,8 @@ services:
   - type: web
     name: lawgenius
     env: python
-    buildCommand: "./build.sh"
-    startCommand: "gunicorn LawGenius.wsgi:application"
+    buildCommand: "chmod +x build.sh && ./build.sh"
+    startCommand: "cd /opt/render/project/src && gunicorn LawGenius.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
