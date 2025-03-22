@@ -2,8 +2,9 @@ services:
   - type: web
     name: lawgenius
     runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
-    startCommand: gunicorn wsgi:application
+    startCommand: gunicorn app:app
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.0
@@ -13,3 +14,5 @@ services:
         value: ".onrender.com"
       - key: PYTHONPATH
         value: "."
+      - key: PORT
+        value: "10000"
