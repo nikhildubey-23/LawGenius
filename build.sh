@@ -6,8 +6,9 @@ python -m pip install --upgrade pip setuptools wheel
 # Install Python dependencies
 pip install -r requirements.txt
 
-# Run Django commands
-python manage.py collectstatic --noinput --clear
-
-# Create the static directory if it doesn't exist
+# Create staticfiles directory if it doesn't exist
 mkdir -p staticfiles
+
+# Run Django commands
+python manage.py collectstatic --noinput
+python manage.py migrate --noinput
