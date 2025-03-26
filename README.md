@@ -64,6 +64,10 @@ LawGenius is a Django-based AI-powered legal assistant designed to assist lawyer
 - `POST /clear_history` - Clear all stored queries.
 - `GET /about` - Information about the platform.
 - `GET /reachout` - Contact page.
+  ##  Contributer
+  Name: Aditi Kant && Team with Nikhil Dubey
+  
+  
 
 
 
