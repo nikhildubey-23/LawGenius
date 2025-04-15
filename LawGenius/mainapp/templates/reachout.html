@@ -1,0 +1,48 @@
+<!-- filepath: /home/Law Genius/Desktop/PythonProjects/flask-app/app/templates/reachout.html -->
+{% extends 'base.html' %}
+
+{% block title %}Reach Out - LawGenius{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Contact Us</h4>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <img src="https://avatars.githubusercontent.com/u/178641434?v=4" alt="Developer Aditi" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                        <h5 class="mb-1">Aditi</h5>
+                        <p class="text-muted">Developer</p>
+                    </div>
+                    <p class="lead text-center mb-4">
+                        Have questions or feedback? We'd love to hear from you!
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

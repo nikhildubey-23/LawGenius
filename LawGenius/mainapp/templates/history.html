@@ -1,0 +1,125 @@
+<!-- filepath: /home/ravan/Desktop/PythonProjects/flask-app/app/templates/history.html -->
+{% extends 'base.html' %}
+
+{% block title %}History{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">Your Query History</h3>
+                    <form method="post" action="{% url 'clear_history' %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Clear History
+                        </button>
+                    </form>
+                </div>
+                <div class="card-body">
+                    {% if history %}
+                    <div class="accordion" id="historyAccordion">
+                        {% for item in history %}
+                        <div class="accordion-item mb-3 shadow-sm">
+                            <h2 class="accordion-header" id="heading{{ item.id }}">
+                                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" 
+                                        type="button" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#collapse{{ item.id }}"
+                                        aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                                        aria-controls="collapse{{ item.id }}">
+                                    <div class="d-flex justify-content-between w-100 align-items-center">
+                                        <span class="text-primary fw-bold">Question #{{ forloop.counter }}</span>
+                                        <small class="text-muted ms-3">{{ item.timestamp }}</small>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="collapse{{ item.id }}" 
+                                 class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" 
+                                 aria-labelledby="heading{{ item.id }}"
+                                 data-bs-parent="#historyAccordion">
+                                <div class="accordion-body">
+                                    <div class="card mb-3">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0">
+                                                <i class="fas fa-question-circle text-primary me-2"></i>Your Question
+                                            </h5>
+                                        </div>
+                                        <div class="card-body">
+                                            {{ item.question|linebreaks }}
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-header bg-light">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <h5 class="mb-0">
+                                                    <i class="fas fa-robot text-success me-2"></i>AI Answer
+                                                </h5>
+                                                <button class="btn btn-sm btn-outline-primary" 
+                                                        onclick="copyAnswer('answer-{{ item.id }}')">
+                                                    <i class="fas fa-copy"></i> Copy
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="answer-{{ item.id }}" class="formatted-answer">
+                                                {{ item.answer|safe|linebreaks }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-history fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">No History Yet</h4>
+                        <p class="text-muted">Your query history will appear here once you start asking questions.</p>
+                        <a href="{% url 'index' %}" class="btn btn-primary mt-3">
+                            <i class="fas fa-question-circle me-2"></i>Ask a Question
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyAnswer(elementId) {
+    const content = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(content).then(() => {
+        alert('Answer copied to clipboard!');
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+}
+</script>
+
+<style>
+.formatted-answer {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #2c3e50;
+}
+.formatted-answer p {
+    margin-bottom: 1rem;
+}
+.formatted-answer ul, .formatted-answer ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+}
+.accordion-button:not(.collapsed) {
+    background-color: #e8f0fe;
+    color: #0d6efd;
+}
+.accordion-item {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+</style>
+{% endblock %}

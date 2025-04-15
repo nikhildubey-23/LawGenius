@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - LawGenius{% endblock %}
+
+{% block extra_css %}
+<style>
+    .typing-text {
+        display: inline-block;
+        overflow: hidden;
+        border-right: 2px solid #fff;
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: 2px;
+        animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: #fff }
+    }
+
+    .hero-section {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(13, 110, 253, 0.8) 0%, rgba(10, 88, 202, 0.8) 100%);
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section text-white py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 hero-content">
+                <h1 class="display-4 fw-bold mb-4">
+                    <span class="typing-text">Welcome to LawGenius</span>
+                </h1>
+                <p class="lead mb-4">Your AI-powered legal assistant for quick and accurate legal guidance.</p>
+                <div class="user-welcome mb-4">
+                    <i class="fas fa-user me-2"></i>
+                    <span>Welcome, <strong>{{ user.username }}</strong></span>
+                </div>
+                <a href="#ask-question" class="btn btn-light btn-lg">
+                    <i class="fas fa-robot me-2"></i>Ask a Question
+                </a>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://i.pinimg.com/736x/3a/fe/59/3afe59b9cf3db3aab04933c5187e26ee.jpg" alt="Legal Illustration" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5">
+    <h2 class="text-center mb-5">Why Choose LawGenius?</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-robot fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">AI-Powered</h5>
+                    <p class="card-text">Get instant answers to your legal questions using advanced AI technology.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-history fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Query History</h5>
+                    <p class="card-text">Access your past queries and answers anytime.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Secure & Private</h5>
+                    <p class="card-text">Your data is protected with enterprise-grade security.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Answer Section -->
+{% if output %}
+<div id="answer-section" class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Answer</h4>
+                    <button class="btn btn-light btn-sm" onclick="copyAnswer('answer-content')">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="answer-content" class="answer-content">
+                        {{ output|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Question Form Section -->
+<div id="ask-question" class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Ask Your Legal Question</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" id="question-form">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="user_input" class="form-label">Your Question</label>
+                            <textarea class="form-control" id="user_input" name="user_input" rows="4" 
+                                    placeholder="Enter your legal question here..." required></textarea>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Get Answer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's an answer section
+    const answerSection = document.getElementById('answer-section');
+    if (answerSection) {
+        // Smooth scroll to the answer section
+        answerSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Add event listener to the form
+    const form = document.getElementById('question-form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            // Prevent default form submission
+            e.preventDefault();
+            
+            // Submit the form
+            this.submit();
+            
+            // After form submission, the page will reload with the answer
+            // The scroll will happen in the DOMContentLoaded event above
+        });
+    }
+});
+
+function copyAnswer(elementId) {
+    const content = document.getElementById(elementId).innerText;
+    navigator.clipboard.writeText(content).then(() => {
+        alert('Answer copied to clipboard!');
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+}
+</script>
+{% endblock %}

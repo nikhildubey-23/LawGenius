@@ -1,0 +1,80 @@
+<!-- filepath: /home/Law Genius/Desktop/PythonProjects/flask-app/app/templates/about.html -->
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">About LawGenius</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Welcome to LawGenius</h5>
+                    <p class="card-text">
+                        LawGenius is an AI-powered legal assistance platform designed to help users with their legal queries and provide insights into various legal matters.
+                    </p>
+
+                    <h5 class="mt-4">Features</h5>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> AI-powered legal assistance
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> Personalized query history
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> User-specific data storage
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fas fa-check-circle text-success"></i> Secure authentication
+                        </li>
+                    </ul>
+
+                    <h5 class="mt-4">Benefits</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">For Lawyers</h6>
+                                    <ul>
+                                        <li>Fast research on laws</li>
+                                        <li>Case prediction</li>
+                                        <li>Document analysis</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">For Students</h6>
+                                    <ul>
+                                        <li>Legal studies assistance</li>
+                                        <li>Case law explanations</li>
+                                        <li>Quick query resolution</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-title">For Common People</h6>
+                                    <ul>
+                                        <li>Legal information</li>
+                                        <li>Free guidance</li>
+                                        <li>Government schemes info</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
